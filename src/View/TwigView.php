@@ -17,23 +17,8 @@ use Twig\Environment;
  *
  * @author Christian Neff <christian.neff@gmail.com>
  */
-class TwigView implements ViewInterface
+class TwigView extends AbstractView
 {
-    private string $name;
-
-    private array $data = [];
-
-    /**
-     * Constructs a view.
-     *
-     * @param string $name The name of the view
-     * @param string $path The path to the views
-     */
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -42,22 +27,6 @@ class TwigView implements ViewInterface
         return $twig->render($this->getTemplateName(), $this->data);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function set(string $name, $value): void
-    {
-        $this->data[$name] = $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-    
     /**
      * {@inheritdoc}
      */
