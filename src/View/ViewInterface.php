@@ -37,6 +37,13 @@ interface ViewInterface
     public function set(string $name, $value): void;
 
     /**
+     * Sets multiple variables.
+     *
+     * @param array $data The variables
+     */
+    public function setMultiple(array $data): void;
+
+    /**
      * Returns the name of the view.
      *
      * @return string

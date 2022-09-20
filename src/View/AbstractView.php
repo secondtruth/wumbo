@@ -43,6 +43,14 @@ abstract class AbstractView implements ViewInterface
     /**
      * {@inheritdoc}
      */
+    public function setMultiple(array $data): void
+    {
+        $this->data = array_merge($this->data, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName(): string
     {
         return $this->name;
