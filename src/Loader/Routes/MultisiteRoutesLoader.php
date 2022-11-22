@@ -43,6 +43,19 @@ class MultisiteRoutesLoader extends AbstractRoutesLoader
     }
 
     /**
+     * Registers multiple sites with their domains.
+     *
+     * @param string[] $domains An array of the domains to register
+     * @param array<string, string> $routesFiles An array of the domains (keys) mapped to their routes file paths (values), if different from the default
+     */
+    public function registerSites(array $domains, array $routesFiles = []): void
+    {
+        foreach ($domains as $domain) {
+            $this->registerSite($domain, $routesFiles[$domain] ?? null);
+        }
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function load(string $domain): array
