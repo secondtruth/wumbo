@@ -28,7 +28,7 @@ use DI\Container;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Secondtruth\Wumbo\Application;
-use Secondtruth\Wumbo\Loader\Routes\RoutesLoader;
+use Secondtruth\Wumbo\Loader\Routes\MultisiteRoutesLoader;
 
 define('APP_ROOT', realpath(__DIR__ . '/..'));
 
@@ -47,7 +47,7 @@ $app = new Application($container);
 $app->setCachePath(APP_ROOT . '/var/cache');
 
 // Create and set up a routes loader and give it to the application.
-$routesLoader = new RoutesLoader(APP_ROOT . '/meta');
+$routesLoader = new MultisiteRoutesLoader(APP_ROOT . '/meta');
 $routesLoader->registerSite('example.com'); // Give the domain of your website
 $app->setRoutesLoader($routesLoader);
 

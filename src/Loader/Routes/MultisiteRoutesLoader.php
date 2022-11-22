@@ -11,39 +11,13 @@
 namespace Secondtruth\Wumbo\Loader\Routes;
 
 /**
- * The RoutesLoader class.
+ * The MultisiteRoutesLoader class.
  *
  * @author Christian Neff <christian.neff@gmail.com>
  */
-class RoutesLoader implements RoutesLoaderInterface
+class MultisiteRoutesLoader extends AbstractRoutesLoader
 {
-    private string $metadataDir;
-
     private array $sites = [];
-
-    /**
-     * Constructs a routes loader.
-     *
-     * @param string $metadataDir The path to the metadata directory
-     */
-    public function __construct(string $metadataDir)
-    {
-        $this->setMetadataDir($metadataDir);
-    }
-
-    /**
-     * Sets the path to the metadata directory.
-     *
-     * @param string $metadataDir The path to the metadata directory
-     */
-    public function setMetadataDir(string $metadataDir): void
-    {
-        if (!is_dir($metadataDir)) {
-            throw new \InvalidArgumentException('Metadata directory does not exist');
-        }
-
-        $this->metadataDir = realpath($metadataDir);
-    }
 
     /**
      * Registers a site with the given domain.
