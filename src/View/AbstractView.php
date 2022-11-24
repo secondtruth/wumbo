@@ -35,6 +35,14 @@ abstract class AbstractView implements ViewInterface
     /**
      * {@inheritdoc}
      */
+    public function getVariables(): array
+    {
+        return $this->data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function set(string $name, $value): void
     {
         $this->data[$name] = $value;

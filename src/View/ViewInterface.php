@@ -29,6 +29,13 @@ interface ViewInterface
     public function render(Environment $twig): string;
 
     /**
+     * Gets the defined variables.
+     *
+     * @return array<string, mixed>
+     */
+    public function getVariables(): array;
+
+    /**
      * Sets a variable with the given value.
      *
      * @param string $name  The name of the variable
