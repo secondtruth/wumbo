@@ -10,22 +10,24 @@
 
 namespace Secondtruth\Wumbo\View;
 
+use Psr\Http\Message\ResponseInterface;
+use Secondtruth\Wumbo\View\Templating\TemplatingEngineInterface;
+
 /**
- * The AbstractView class.
+ * The View class.
  *
  * @author Christian Neff <christian.neff@gmail.com>
  */
-abstract class AbstractView implements ViewInterface
+class View implements ViewInterface
 {
     protected string $name;
 
     protected array $data = [];
 
     /**
-     * Constructs a view.
+     * Constructs a View object.
      *
      * @param string $name The name of the view
-     * @param string $path The path to the views
      */
     public function __construct(string $name)
     {
@@ -35,7 +37,15 @@ abstract class AbstractView implements ViewInterface
     /**
      * {@inheritdoc}
      */
-    public function getVariables(): array
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getData(): array
     {
         return $this->data;
     }
@@ -59,8 +69,19 @@ abstract class AbstractView implements ViewInterface
     /**
      * {@inheritdoc}
      */
-    public function getName(): string
+    public function render(ResponseInterface $response, TemplatingEngineInterface $engine, array $extraData = []): ResponseInterface
     {
-        return $this->name;
+        $output = $engine->renderTemplate($this->name, array_merge($this->data, $extraData));
+        $response->getBody()->write($output);
+
+        return $response;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName(): string
+    {
+        return $this->name . '.twig';
     }
 }

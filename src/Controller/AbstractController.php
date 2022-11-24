@@ -11,9 +11,9 @@
 namespace Secondtruth\Wumbo\Controller;
 
 use Secondtruth\Wumbo\View\ViewInterface;
+use Secondtruth\Wumbo\View\Templating\TemplatingEngineInterface;
 use Psr\Http\Message\ResponseInterface;
 use Laminas\Diactoros\Response\HtmlResponse;
-use Twig\Environment;
 
 /**
  * The AbstractController class.
@@ -22,17 +22,17 @@ use Twig\Environment;
  */
 abstract class AbstractController
 {
-    protected Environment $twig;
+    protected TemplatingEngineInterface $templatingEngine;
 
-    public function __construct(Environment $twig)
+    public function __construct(TemplatingEngineInterface $templatingEngine)
     {
-        $this->twig = $twig;
+        $this->templatingEngine = $templatingEngine;
     }
 
-    protected function render(ViewInterface $view): ResponseInterface
+    protected function render(ViewInterface $view, array $extraData = []): ResponseInterface
     {
-        $output = $view->render($this->twig);
+        $response = new HtmlResponse('');
 
-        return new HtmlResponse($output);
+        return $view->render($response, $this->templatingEngine, $extraData);
     }
 }

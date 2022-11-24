@@ -10,7 +10,8 @@
 
 namespace Secondtruth\Wumbo\View;
 
-use Twig\Environment;
+use Psr\Http\Message\ResponseInterface;
+use Secondtruth\Wumbo\View\Templating\TemplatingEngineInterface;
 
 /**
  * The View interface.
@@ -20,20 +21,18 @@ use Twig\Environment;
 interface ViewInterface
 {
     /**
-     * Renders the view.
-     *
-     * @param Environment $twig The Twig environment
-     *
-     * @return string
-     */
-    public function render(Environment $twig): string;
-
-    /**
      * Gets the defined variables.
      *
      * @return array<string, mixed>
      */
-    public function getVariables(): array;
+    public function getData(): array;
+
+    /**
+     * Returns the name of the view.
+     *
+     * @return string
+     */
+    public function getName(): string;
 
     /**
      * Sets a variable with the given value.
@@ -51,16 +50,16 @@ interface ViewInterface
     public function setMultiple(array $data): void;
 
     /**
-     * Returns the name of the view.
-     *
-     * @return string
-     */
-    public function getName(): string;
-
-    /**
      * Returns the full template name for the view.
      *
      * @return string
      */
     public function getTemplateName(): string;
+
+    /**
+     * Renders the view.
+     *
+     * @return ResponseInterface
+     */
+    public function render(ResponseInterface $response, TemplatingEngineInterface $engine, array $extraData = []): ResponseInterface;
 }

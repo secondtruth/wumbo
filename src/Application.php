@@ -10,12 +10,14 @@
 
 namespace Secondtruth\Wumbo;
 
-use Slim\App as SlimApp;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Secondtruth\Wumbo\Loader\Routes\RoutesLoaderInterface;
+use Secondtruth\Wumbo\View\Templating\TemplatingEngineInterface;
+use Secondtruth\Wumbo\View\Templating\TemplatingMiddleware;
+use Slim\App as SlimApp;
 use Laminas\Diactoros\ResponseFactory;
 use Laminas\Diactoros\ServerRequestFactory;
-use Secondtruth\Wumbo\Loader\Routes\RoutesLoaderInterface;
 
 /**
  * The Application class.
@@ -36,6 +38,13 @@ class Application extends SlimApp
 
         $this->addRoutingMiddleware();
         $this->addErrorMiddleware(true, true, true);
+
+        $container = $this->getContainer();
+        if ($container->has(TemplatingEngineInterface::class)) {
+            $templatingEngine = $container->get(TemplatingEngineInterface::class);
+            $templatingMiddleware = TemplatingMiddleware::create($this, $templatingEngine);
+            $this->addMiddleware($templatingMiddleware);
+        }
     }
 
     public function run(?ServerRequestInterface $request = null): void

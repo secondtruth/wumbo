@@ -20,7 +20,9 @@
         "slim/slim": "^4.10",
         "laminas/laminas-diactoros": "^2.14",
         "php-di/php-di": "^6.4",
-        "twig/twig": "^3.4"
+        "twig/twig": "^3.4",
+        "league/plates": "^3.4",
+        "slim/twig-view": "^3.3"
     },
     "require-dev": {
         "symplify/easy-coding-standard": "^11.1"
