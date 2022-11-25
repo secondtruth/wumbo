@@ -36,7 +36,7 @@ class MultisiteRoutesLoader extends AbstractRoutesLoader
         $routesFile ??= $this->metadataDir . '/' . $domain . '/routes.php';
 
         if (!is_file($routesFile)) {
-            throw new \InvalidArgumentException('Routes file does not exist');
+            throw new \InvalidArgumentException(sprintf('Routes file "%s" for site "%s" not found', $routesFile, $domain));
         }
 
         $this->sites[$domain] = realpath($routesFile);
@@ -61,11 +61,11 @@ class MultisiteRoutesLoader extends AbstractRoutesLoader
     public function load(string $domain): array
     {
         $routesFile = $this->sites[$domain] ?? null;
-        
+
         if ($routesFile) {
             return require $routesFile;
         }
-        
+
         return [];
     }
 }
