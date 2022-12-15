@@ -22,8 +22,7 @@
         "psr/container": "^1.0",
         "laminas/laminas-diactoros": "^2.14",
         "twig/twig": "^3.4",
-        "league/plates": "^3.4",
-        "slim/twig-view": "^3.3"
+        "league/plates": "^3.4"
     },
     "require-dev": {
         "symplify/easy-coding-standard": "^11.1"
