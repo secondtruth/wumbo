@@ -25,12 +25,13 @@ Create a new file called `public/index.php` and add some code like this:
 namespace Secondtruth\SampleWebsite;
 
 use DI\Container;
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
 use Secondtruth\Wumbo\Application;
+use Secondtruth\Wumbo\View\Templating\TemplatingEngineInterface;
+use Secondtruth\Wumbo\View\Templating\TwigEngine;
 use Secondtruth\Wumbo\Loader\Routes\MultisiteRoutesLoader;
 
 define('APP_ROOT', realpath(__DIR__ . '/..'));
+define('CONFIG_DIR', APP_ROOT . '/config');
 
 require APP_ROOT . '/vendor/autoload.php';
 
@@ -38,18 +39,17 @@ require APP_ROOT . '/vendor/autoload.php';
 // We use the PHP-DI container here, but you can use any other PSR-11 compatible container as well.
 // In this example, we set Twig as our template engine.
 $container = new Container();
-$container->set(Environment::class, new Environment(new FilesystemLoader(APP_ROOT . '/src/Resources/views'), [
+$container->set(TemplatingEngineInterface::class, TwigEngine::create(APP_ROOT . '/resources/views', [
     'cache' => APP_ROOT . '/var/cache/twig',
 ]));
 
-// Create a new Application instance and set the Container.
-$app = new Application($container);
-$app->setCachePath(APP_ROOT . '/var/cache');
-
 // Create and set up a routes loader and give it to the application.
-$routesLoader = new MultisiteRoutesLoader(APP_ROOT . '/meta');
+$routesLoader = new MultisiteRoutesLoader(CONFIG_DIR);
 $routesLoader->registerSite('example.com'); // Give the domain of your website
-$app->setRoutesLoader($routesLoader);
+
+// Create a new Application instance and set routes loader and container.
+$app = new Application($routesLoader, $container);
+$app->setCachePath(APP_ROOT . '/var/cache');
 
 $app->run();
 ```
