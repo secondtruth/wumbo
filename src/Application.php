@@ -26,11 +26,11 @@ use Laminas\Diactoros\ServerRequestFactory;
  */
 class Application extends SlimApp
 {
-    private ?RoutesLoaderInterface $routesLoader = null;
+    private RoutesLoaderInterface $routesLoader;
 
     private ?string $cachePath = null;
 
-    public function __construct(?ContainerInterface $container = null)
+    public function __construct(RoutesLoaderInterface $routesLoader, ?ContainerInterface $container = null)
     {
         $responseFactory = new ResponseFactory();
 
@@ -38,6 +38,8 @@ class Application extends SlimApp
 
         $this->addRoutingMiddleware();
         $this->addErrorMiddleware(true, true, true);
+
+        $this->setRoutesLoader($routesLoader);
 
         $container = $this->getContainer();
         if ($container->has(TemplatingEngineInterface::class)) {
